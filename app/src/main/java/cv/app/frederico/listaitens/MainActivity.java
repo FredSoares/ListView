@@ -16,14 +16,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cv.app.frederico.listaitens.utils.Common;
+
 public class MainActivity extends AppCompatActivity {
 
-    ListView listView;
-    // Lista de nomes
-    List<String> dataList;
-    //String[] data = {"test", "aulsa"};
+    private ListView listView;
 
-    String nome;
+    private String nome;
+    private int id;
 
 
     @Override
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.main_LV);
 
         //adapta elementos da lista a um layout
-        final ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, dataList);
+        final ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, Common.dataList);
 
         //adicionar o adapter á listview
         listView.setAdapter(adapter);
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                // Toast.makeText(getApplicationContext(), nome, Toast.LENGTH_SHORT).show();
 
                 // remove item da lista atraves da possição
-                dataList.remove(position);
+                Common.dataList.remove(position);
                 //notificar que o conjunto de dados foi modificado
                 adapter.notifyDataSetChanged();
             }
@@ -67,22 +67,22 @@ public class MainActivity extends AppCompatActivity {
     // metodo para adicionar itens na lista de nomes
     private void addItensList() {
         //instancia do objeto
-        dataList = new ArrayList<>();
+        Common.dataList = new ArrayList<>();
 
         //adicionar elementos
-        dataList.add("Junior");
-        dataList.add("Yuri");
-        dataList.add("Jenuina");
-        dataList.add("Marlon");
-        dataList.add("Steven");
-        dataList.add("Lisiane");
-        dataList.add("Dani");
-        dataList.add("Elton");
-        dataList.add("Hernani");
-        dataList.add("William");
-        dataList.add("Irian");
-        dataList.add("Jerry");
-        dataList.add("Frederico");
+        Common.dataList.add("Junior");
+        Common.dataList.add("Yuri");
+        Common.dataList.add("Jenuina");
+        Common.dataList.add("Marlon");
+        Common.dataList.add("Steven");
+        Common.dataList.add("Lisiane");
+        Common.dataList.add("Dani");
+        Common.dataList.add("Elton");
+        Common.dataList.add("Hernani");
+        Common.dataList.add("William");
+        Common.dataList.add("Irian");
+        Common.dataList.add("Jerry");
+        Common.dataList.add("Frederico");
     }
 
     @Override
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Pegar valor do item atraves da possiçao
         nome = (String) listView.getItemAtPosition(adapterContextMenuInfo.position);
+        id = adapterContextMenuInfo.position;
     }
 
     @Override
@@ -108,24 +109,33 @@ public class MainActivity extends AppCompatActivity {
 
     switch (item.getItemId()){
             case R.id.main_context_edit:
-                Toast.makeText(this, nome +" "+ item.getTitle(), Toast.LENGTH_SHORT).show();
-
+                //chama metodo atualizar item
+                updateItem();
+                //Toast.makeText(this, nome +" "+ id, Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.main_context_fav:
                 Toast.makeText(this, nome +" "+ item.getTitle(), Toast.LENGTH_SHORT).show();
-
+                return true;
             case R.id.main_context_share:
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, nome);
 
-
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
-
-                Toast.makeText(this, nome +" "+ item.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
-        return super.onContextItemSelected(item);
+    }
+
+    private void updateItem() {
+        Intent intent = new Intent(this, EditItem.class);
+        intent.putExtra("Nome", nome);
+        intent.putExtra("Id", id);
+
+        startActivity(intent);
     }
 }
