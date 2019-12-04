@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cv.app.frederico.listaitens.adapter.ContactAdapter;
 import cv.app.frederico.listaitens.utils.Common;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String nome;
     private int id;
-    ArrayAdapter adapter;
+    ContactAdapter adapter;
 
 
     @Override
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.main_LV);
 
         //adapta elementos da lista a um layout
-        adapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, Common.dataList);
+        adapter = new ContactAdapter(this ,Common.dataList);
 
         //adicionar o adapter á listview
         listView.setAdapter(adapter);
