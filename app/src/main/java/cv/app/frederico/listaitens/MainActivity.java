@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String nome;
     private int id;
+    ArrayAdapter adapter;
 
 
     @Override
@@ -37,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.main_LV);
 
         //adapta elementos da lista a um layout
-        final ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, Common.dataList);
+        adapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, Common.dataList);
 
         //adicionar o adapter á listview
         listView.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
+
 
         //click num item da lista
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 Common.dataList.remove(position);
                 //notificar que o conjunto de dados foi modificado
                 adapter.notifyDataSetChanged();
+
             }
         });
 
@@ -105,16 +109,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.main_menu_fav:
+                abrirFav();
+                return true;
+            case R.id.main_menu_settings:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void abrirFav() {
+        Intent intent = new Intent(this, FavoriteActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
 
     switch (item.getItemId()){
             case R.id.main_context_edit:
                 //chama metodo atualizar item
                 updateItem();
-                //Toast.makeText(this, nome +" "+ id, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.main_context_fav:
-                Toast.makeText(this, nome +" "+ item.getTitle(), Toast.LENGTH_SHORT).show();
+                addFavorite();
                 return true;
             case R.id.main_context_share:
                 Intent intent = new Intent();
@@ -131,11 +153,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void addFavorite() {
+        Common.favList.add(nome);
+    }
+
     private void updateItem() {
         Intent intent = new Intent(this, EditItem.class);
         intent.putExtra("Nome", nome);
         intent.putExtra("Id", id);
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

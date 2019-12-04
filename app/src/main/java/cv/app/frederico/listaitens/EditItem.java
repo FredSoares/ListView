@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import cv.app.frederico.listaitens.utils.Common;
 
 public class EditItem extends AppCompatActivity {
-    EditText editText;
-    Button btUpdate;
-    String nome;
+    private EditText editText;
+    private Button btUpdate;
+    private String nome;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class EditItem extends AppCompatActivity {
 
         //pegar informação dentro da intent
         nome = getIntent().getStringExtra("Nome");
+        id = (int) getIntent().getExtras().get("Id");
 
         // colocar texto no campo edittext
         editText.setText(nome);
@@ -42,6 +45,8 @@ public class EditItem extends AppCompatActivity {
 
         nome = editText.getText().toString();
 
-        //Common.dataList.
+        Common.dataList.set(id, nome);
+
+        finish();
     }
 }
