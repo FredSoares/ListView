@@ -29,8 +29,8 @@ public class ContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public Object getItem(int position) {
+        return lista.get(position);
     }
 
     @Override
