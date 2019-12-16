@@ -45,7 +45,7 @@ public class EditItem extends AppCompatActivity {
 
         nome = editText.getText().toString();
 
-        Common.dataList.set(id, nome);
+        //Common.dataList.set(id, nome);
 
         finish();
     }

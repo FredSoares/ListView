@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cv.app.frederico.listaitens.Model.Aluno;
 import cv.app.frederico.listaitens.adapter.ContactAdapter;
 import cv.app.frederico.listaitens.utils.Common;
 
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
 
-    private String nome;
+    private Aluno aluno;
     private int id;
     ContactAdapter adapter;
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 //pega o elemento na possição passada como parametro
-                String nome = (String) listView.getItemAtPosition(position);
+                Aluno aluno = (Aluno) listView.getItemAtPosition(position);
 
                // Toast.makeText(getApplicationContext(), nome, Toast.LENGTH_SHORT).show();
 
@@ -74,20 +75,10 @@ public class MainActivity extends AppCompatActivity {
         //instancia do objeto
         Common.dataList = new ArrayList<>();
 
+        for (int i = 0; i < 12; i++) {
+            Common.dataList.add(new Aluno("Aluno " +i, "343546464", i));
+        }
         //adicionar elementos
-        Common.dataList.add("Junior");
-        Common.dataList.add("Yuri");
-        Common.dataList.add("Jenuina");
-        Common.dataList.add("Marlon");
-        Common.dataList.add("Steven");
-        Common.dataList.add("Lisiane");
-        Common.dataList.add("Dani");
-        Common.dataList.add("Elton");
-        Common.dataList.add("Hernani");
-        Common.dataList.add("William");
-        Common.dataList.add("Irian");
-        Common.dataList.add("Jerry");
-        Common.dataList.add("Frederico");
     }
 
     @Override
@@ -105,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
         // Pegar valor do item atraves da possiçao
-        nome = (String) listView.getItemAtPosition(adapterContextMenuInfo.position);
+        aluno = (Aluno) listView.getItemAtPosition(adapterContextMenuInfo.position);
         id = adapterContextMenuInfo.position;
     }
 
@@ -143,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, nome);
+                intent.putExtra(Intent.EXTRA_TEXT, aluno.getName());
 
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
@@ -155,12 +146,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addFavorite() {
-        Common.favList.add(nome);
+        Common.favList.add(aluno);
     }
 
     private void updateItem() {
         Intent intent = new Intent(this, EditItem.class);
-        intent.putExtra("Nome", nome);
+        intent.putExtra("Nome", aluno.getName());
         intent.putExtra("Id", id);
 
         startActivity(intent);

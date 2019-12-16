@@ -3,10 +3,12 @@ package cv.app.frederico.listaitens;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import cv.app.frederico.listaitens.utils.Common;
 
@@ -27,5 +29,12 @@ public class FavoriteActivity extends AppCompatActivity {
 
         //adicionar o adapter á listview
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("BACK", "backpressed");
+
+        super.onBackPressed();
     }
 }

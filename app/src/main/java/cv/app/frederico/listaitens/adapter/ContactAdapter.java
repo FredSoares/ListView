@@ -10,15 +10,16 @@ import android.widget.TextView;
 import java.util.List;
 
 import cv.app.frederico.listaitens.MainActivity;
+import cv.app.frederico.listaitens.Model.Aluno;
 import cv.app.frederico.listaitens.R;
 
 public class ContactAdapter extends BaseAdapter {
 
-    private List<String> lista;
+    private List<Aluno> lista;
     private Context context;
 
 
-    public ContactAdapter(Context context, List<String> dataList) {
+    public ContactAdapter(Context context, List<Aluno> dataList) {
         this.context = context;
         this.lista = dataList;
     }
@@ -44,7 +45,7 @@ public class ContactAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.item_list_main, null);
 
         TextView tv_nome = view.findViewById(R.id.name_item_list_main);
-        tv_nome.setText(lista.get(position));
+        tv_nome.setText(lista.get(position).getName());
 
         return view;
     }
